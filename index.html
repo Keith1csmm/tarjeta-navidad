@@ -6,11 +6,12 @@
 
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             text-align: center;
             padding: 30px;
-            background: url('https://i.imgur.com/0ZfFJxw.jpg') no-repeat center center fixed;
+            background: url('https://i.imgur.com/jt4d4FB.jpg') no-repeat center center fixed;
             background-size: cover;
+            overflow-x: hidden;
             animation: fadeIn 2s ease-in-out;
         }
 
@@ -19,72 +20,289 @@
             to {opacity: 1;}
         }
 
+        /* Copos de nieve cayendo */
+        .snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: url('https://i.imgur.com/M6aD5wP.png');
+            animation: snow 10s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes snow {
+            0% {background-position: 0 0;}
+            100% {background-position: 0 1000px;}
+        }
+
         h1 {
             color: white;
-            text-shadow: 0 0 10px red;
+            text-shadow: 0 0 20px #ff0000;
+            font-size: 40px;
             animation: glow 2s infinite alternate;
         }
 
         @keyframes glow {
-            from {text-shadow: 0 0 5px red;}
-            to {text-shadow: 0 0 20px yellow;}
+            from {text-shadow: 0 0 10px red;}
+            to {text-shadow: 0 0 25px yellow;}
         }
 
+        /* Tarjeta navideña con luces */
         .card {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            width: 350px;
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            width: 380px;
             margin-left: auto;
             margin-right: auto;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            position: relative;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
             animation: pop 0.6s ease-out;
         }
 
         @keyframes pop {
-            0% {transform: scale(0.8); opacity: 0;}
+            0% {transform: scale(0.7); opacity: 0;}
             100% {transform: scale(1); opacity: 1;}
         }
 
+        /* Luces animadas alrededor */
+        .card::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 25px;
+            background: linear-gradient(120deg, red, gold, green, red);
+            z-index: -1;
+            background-size: 300%;
+            animation: luz 4s linear infinite;
+        }
+
+        @keyframes luz {
+            0% {background-position: 0%;}
+            100% {background-position: 300%;}
+        }
+
         button {
-            padding: 10px 20px;
+            padding: 12px 25px;
             cursor: pointer;
-            background: red;
+            background: #ff3b3b;
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 17px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
             transition: 0.3s;
+            box-shadow: 0 0 10px red;
         }
 
         button:hover {
-            background: darkred;
+            background: #b30000;
             transform: scale(1.1);
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid white;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
 
+    <!-- Copos de nieve -->
+    <div class="snow"></div>
+
     <h1>🎄 Crea tu Tarjeta Navideña 🎁</h1>
 
-    <p style="color:white; font-size:18px;">Escribe los nombres y genera tu tarjeta personalizada:</p>
+    <p style="color:white; font-size:20px; text-shadow:0 0 10px black;">
+        Escribe los nombres y genera tu tarjeta personalizada:
+    </p>
 
-    <input id="de" type="text" placeholder="Tu nombre">
-    <br><br>
-    <input id="para" type="text" placeholder="Nombre del destinatario">
-    <br><br>
+    <input id="de" type="text" placeholder="Tu nombre"> <br><br>
+    <input id="para" type="text" placeholder="Nombre del destinatario"> <br><br>
 
     <button onclick="generar()">Generar Tarjeta</button>
 
     <div id="tarjeta" class="card" style="display:none;">
-        <h2 style="color:#d32f2f;">🎅 ¡Feliz Navidad! 🎄</h2>
-        <p id="texto" style="font-size:20px;"></p>
+        <h2 style="color:#d32f2f; font-size:28px;">🎅 ¡Feliz Navidad! 🎄</h2>
+        <p id="texto" style="font-size:22px; font-weight:bold;"></p>
     </div>
 
-    <!-- Música navideña sin copyright -->
+    <!-- Música navideña libre de copyright -->
     <audio autoplay loop>
-        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Scott_Holmes/Music_For_TV_And_Film/Scott_Holmes_-_07_-_Happy_Christmas.mp3" type="audio/mpeg">
+        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Computers_Arent_Music/Jingle_Bells/Computers_Arent_Music_-_Jingle_Bells.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function generar() {
+            let de = document.getElementById("de").value;
+            let para = document.getElementById("para").value;
+
+            if (de.trim() === "" || para.trim() === "") {
+                alert("Por favor, llena ambos nombres.");
+                return;
+            }
+
+            document.getElementById("texto").innerHTML =
+                "De: <b>" + de + "</b><br>Para: <b>" + para + "</b>";
+
+            document.getElementById("tarjeta").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tarjeta Navideña Personalizada</title>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            padding: 30px;
+            background: url('https://i.imgur.com/jt4d4FB.jpg') no-repeat center center fixed;
+            background-size: cover;
+            overflow-x: hidden;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        /* Copos de nieve cayendo */
+        .snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: url('https://i.imgur.com/M6aD5wP.png');
+            animation: snow 10s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes snow {
+            0% {background-position: 0 0;}
+            100% {background-position: 0 1000px;}
+        }
+
+        h1 {
+            color: white;
+            text-shadow: 0 0 20px #ff0000;
+            font-size: 40px;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {text-shadow: 0 0 10px red;}
+            to {text-shadow: 0 0 25px yellow;}
+        }
+
+        /* Tarjeta navideña con luces */
+        .card {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+            animation: pop 0.6s ease-out;
+        }
+
+        @keyframes pop {
+            0% {transform: scale(0.7); opacity: 0;}
+            100% {transform: scale(1); opacity: 1;}
+        }
+
+        /* Luces animadas alrededor */
+        .card::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 25px;
+            background: linear-gradient(120deg, red, gold, green, red);
+            z-index: -1;
+            background-size: 300%;
+            animation: luz 4s linear infinite;
+        }
+
+        @keyframes luz {
+            0% {background-position: 0%;}
+            100% {background-position: 300%;}
+        }
+
+        button {
+            padding: 12px 25px;
+            cursor: pointer;
+            background: #ff3b3b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 0 10px red;
+        }
+
+        button:hover {
+            background: #b30000;
+            transform: scale(1.1);
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid white;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Copos de nieve -->
+    <div class="snow"></div>
+
+    <h1>🎄 Crea tu Tarjeta Navideña 🎁</h1>
+
+    <p style="color:white; font-size:20px; text-shadow:0 0 10px black;">
+        Escribe los nombres y genera tu tarjeta personalizada:
+    </p>
+
+    <input id="de" type="text" placeholder="Tu nombre"> <br><br>
+    <input id="para" type="text" placeholder="Nombre del destinatario"> <br><br>
+
+    <button onclick="generar()">Generar Tarjeta</button>
+
+    <div id="tarjeta" class="card" style="display:none;">
+        <h2 style="color:#d32f2f; font-size:28px;">🎅 ¡Feliz Navidad! 🎄</h2>
+        <p id="texto" style="font-size:22px; font-weight:bold;"></p>
+    </div>
+
+    <!-- Música navideña libre de copyright -->
+    <audio autoplay loop>
+        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Computers_Arent_Music/Jingle_Bells/Computers_Arent_Music_-_Jingle_Bells.mp3" type="audio/mpeg">
     </audio>
 
     <script>
