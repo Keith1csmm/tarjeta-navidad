@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Tarjeta Navideña</title>
-
-<!-- Ajuste visual -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -12,75 +10,71 @@
         margin: 0;
         padding: 0;
         font-family: "Segoe UI", sans-serif;
-        background-image: url("https://i.imgur.com/0rK1qUl.jpg"); /* Fondo navideño */
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
+        background: linear-gradient(140deg, #8b0000, #b30000, #d62828, #b30000);
+        background-size: 300% 300%;
+        animation: bgMove 12s ease infinite;
         overflow-x: hidden;
+        color: white;
     }
 
-    /* Oscurecer ligeramente el fondo */
-    .overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.45);
-        z-index: 0;
+    @keyframes bgMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
-    /* Contenedor de la tarjeta */
     .card {
-        position: relative;
-        margin: 80px auto;
         max-width: 600px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
         padding: 40px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 20px;
+        border-radius: 25px;
+        margin: 100px auto;
         text-align: center;
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        border: 2px solid rgba(255, 215, 0, 0.5);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
         animation: fadeIn 2s ease;
-        z-index: 10;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
-        font-size: 40px;
-        color: #d62828;
-        text-shadow: 0 0 5px #f7e9a4;
+        font-size: 42px;
+        margin-bottom: 10px;
+        text-shadow: 0 0 8px gold;
     }
 
     p {
-        font-size: 20px;
-        color: #333;
+        font-size: 22px;
     }
 
-    /* Imagen decorativa arriba */
-    .top-deco {
-        width: 180px;
-        margin-bottom: 10px;
-        animation: swing 3s infinite ease-in-out;
+    /* decoraciones emoji */
+    .emoji-top {
+        font-size: 70px;
+        display: block;
+        animation: float 3s ease-in-out infinite;
+        margin-bottom: 20px;
     }
 
-    /* Imagen decorativa abajo */
-    .bottom-deco {
-        width: 200px;
+    .emoji-bottom {
+        font-size: 60px;
+        display: block;
         margin-top: 20px;
         animation: glow 2s infinite alternate;
     }
 
-    /* Animaciones */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes swing {
-        0% { transform: rotate(0deg); }
-        50% { transform: rotate(3deg); }
-        100% { transform: rotate(0deg); }
+    @keyframes float {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0); }
     }
 
     @keyframes glow {
-        from { filter: drop-shadow(0 0 5px gold); }
-        to   { filter: drop-shadow(0 0 15px gold); }
+        from { text-shadow: 0 0 5px gold; }
+        to { text-shadow: 0 0 20px gold; }
     }
 
     /* Copos de nieve */
@@ -95,38 +89,41 @@
     }
 
     @keyframes snow {
-        0%   { transform: translateY(0); }
+        0% { transform: translateY(0); }
         100% { transform: translateY(110vh); }
     }
+
 </style>
 </head>
 
 <body>
 
-<div class="overlay"></div>
+<div class="card">
+    <div class="emoji-top">🎄✨</div>
 
-<!-- Música (auto-play silencioso permitido, luego el usuario activa volumen) -->
-<audio id="music" loop>
-    <source src="https://files.catbox.moe/d7hey4.mp3" type="audio/mpeg">
-</audio>
+    <h1>¡Feliz Navidad!</h1>
 
-<button onclick="document.getElementById('music').play()" style="
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 12px 20px;
-    background: #d62828;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    z-index: 2000;
-    box-shadow: 0 0 10px gold;
-">
-🎵 Reproducir música
-</button>
+    <p>Que la magia de estas fiestas ilumine tu corazón,<br>
+    y te regale alegría, amor y mucha paz. ❤️</p>
 
+    <div class="emoji-bottom">🎁⭐</div>
+</div>
 
-<div cla
-    
+<script>
+    // Copos de nieve
+    const snowCount = 40;
+
+    for (let i = 0; i < snowCount; i++) {
+        let snow = document.createElement("div");
+        snow.className = "snowflake";
+        snow.innerHTML = "❄";
+        snow.style.left = Math.random() * 100 + "vw";
+        snow.style.fontSize = (Math.random() * 15 + 10) + "px";
+        snow.style.animationDuration = (Math.random() * 4 + 4) + "s";
+        snow.style.opacity = Math.random();
+        document.body.appendChild(snow);
+    }
+</script>
+
+</body>
+</html>
