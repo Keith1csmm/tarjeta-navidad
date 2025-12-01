@@ -1,326 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Tarjeta Navideña Personalizada</title>
+<meta charset="UTF-8">
+<title>Tarjeta Navideña</title>
 
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            text-align: center;
-            padding: 30px;
-            background: url('https://i.imgur.com/jt4d4FB.jpg') no-repeat center center fixed;
-            background-size: cover;
-            overflow-x: hidden;
-            animation: fadeIn 2s ease-in-out;
-        }
+<!-- Ajuste visual -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        background-image: url("https://i.imgur.com/0rK1qUl.jpg"); /* Fondo navideño */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        overflow-x: hidden;
+    }
 
-        /* Copos de nieve cayendo */
-        .snow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background-image: url('https://i.imgur.com/M6aD5wP.png');
-            animation: snow 10s linear infinite;
-            opacity: 0.8;
-        }
+    /* Oscurecer ligeramente el fondo */
+    .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 0;
+    }
 
-        @keyframes snow {
-            0% {background-position: 0 0;}
-            100% {background-position: 0 1000px;}
-        }
+    /* Contenedor de la tarjeta */
+    .card {
+        position: relative;
+        margin: 80px auto;
+        max-width: 600px;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        animation: fadeIn 2s ease;
+        z-index: 10;
+    }
 
-        h1 {
-            color: white;
-            text-shadow: 0 0 20px #ff0000;
-            font-size: 40px;
-            animation: glow 2s infinite alternate;
-        }
+    h1 {
+        font-size: 40px;
+        color: #d62828;
+        text-shadow: 0 0 5px #f7e9a4;
+    }
 
-        @keyframes glow {
-            from {text-shadow: 0 0 10px red;}
-            to {text-shadow: 0 0 25px yellow;}
-        }
+    p {
+        font-size: 20px;
+        color: #333;
+    }
 
-        /* Tarjeta navideña con luces */
-        .card {
-            margin-top: 30px;
-            padding: 25px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            width: 380px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
-            animation: pop 0.6s ease-out;
-        }
+    /* Imagen decorativa arriba */
+    .top-deco {
+        width: 180px;
+        margin-bottom: 10px;
+        animation: swing 3s infinite ease-in-out;
+    }
 
-        @keyframes pop {
-            0% {transform: scale(0.7); opacity: 0;}
-            100% {transform: scale(1); opacity: 1;}
-        }
+    /* Imagen decorativa abajo */
+    .bottom-deco {
+        width: 200px;
+        margin-top: 20px;
+        animation: glow 2s infinite alternate;
+    }
 
-        /* Luces animadas alrededor */
-        .card::before {
-            content: "";
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            right: -8px;
-            bottom: -8px;
-            border-radius: 25px;
-            background: linear-gradient(120deg, red, gold, green, red);
-            z-index: -1;
-            background-size: 300%;
-            animation: luz 4s linear infinite;
-        }
+    /* Animaciones */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
 
-        @keyframes luz {
-            0% {background-position: 0%;}
-            100% {background-position: 300%;}
-        }
+    @keyframes swing {
+        0% { transform: rotate(0deg); }
+        50% { transform: rotate(3deg); }
+        100% { transform: rotate(0deg); }
+    }
 
-        button {
-            padding: 12px 25px;
-            cursor: pointer;
-            background: #ff3b3b;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 0 10px red;
-        }
+    @keyframes glow {
+        from { filter: drop-shadow(0 0 5px gold); }
+        to   { filter: drop-shadow(0 0 15px gold); }
+    }
 
-        button:hover {
-            background: #b30000;
-            transform: scale(1.1);
-        }
+    /* Copos de nieve */
+    .snowflake {
+        position: fixed;
+        top: -10px;
+        color: white;
+        font-size: 20px;
+        user-select: none;
+        animation: snow linear infinite;
+        z-index: 1000;
+    }
 
-        input {
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid white;
-            background: rgba(255, 255, 255, 0.8);
-            font-size: 16px;
-        }
-    </style>
+    @keyframes snow {
+        0%   { transform: translateY(0); }
+        100% { transform: translateY(110vh); }
+    }
+</style>
 </head>
+
 <body>
 
-    <!-- Copos de nieve -->
-    <div class="snow"></div>
+<div class="overlay"></div>
 
-    <h1>🎄 Crea tu Tarjeta Navideña 🎁</h1>
+<!-- Música (auto-play silencioso permitido, luego el usuario activa volumen) -->
+<audio id="music" loop>
+    <source src="https://files.catbox.moe/d7hey4.mp3" type="audio/mpeg">
+</audio>
 
-    <p style="color:white; font-size:20px; text-shadow:0 0 10px black;">
-        Escribe los nombres y genera tu tarjeta personalizada:
-    </p>
+<button onclick="document.getElementById('music').play()" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    background: #d62828;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 2000;
+    box-shadow: 0 0 10px gold;
+">
+🎵 Reproducir música
+</button>
 
-    <input id="de" type="text" placeholder="Tu nombre"> <br><br>
-    <input id="para" type="text" placeholder="Nombre del destinatario"> <br><br>
 
-    <button onclick="generar()">Generar Tarjeta</button>
-
-    <div id="tarjeta" class="card" style="display:none;">
-        <h2 style="color:#d32f2f; font-size:28px;">🎅 ¡Feliz Navidad! 🎄</h2>
-        <p id="texto" style="font-size:22px; font-weight:bold;"></p>
-    </div>
-
-    <!-- Música navideña libre de copyright -->
-    <audio autoplay loop>
-        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Computers_Arent_Music/Jingle_Bells/Computers_Arent_Music_-_Jingle_Bells.mp3" type="audio/mpeg">
-    </audio>
-
-    <script>
-        function generar() {
-            let de = document.getElementById("de").value;
-            let para = document.getElementById("para").value;
-
-            if (de.trim() === "" || para.trim() === "") {
-                alert("Por favor, llena ambos nombres.");
-                return;
-            }
-
-            document.getElementById("texto").innerHTML =
-                "De: <b>" + de + "</b><br>Para: <b>" + para + "</b>";
-
-            document.getElementById("tarjeta").style.display = "block";
-        }
-    </script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Tarjeta Navideña Personalizada</title>
-
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            text-align: center;
-            padding: 30px;
-            background: url('https://i.imgur.com/jt4d4FB.jpg') no-repeat center center fixed;
-            background-size: cover;
-            overflow-x: hidden;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
-
-        /* Copos de nieve cayendo */
-        .snow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background-image: url('https://i.imgur.com/M6aD5wP.png');
-            animation: snow 10s linear infinite;
-            opacity: 0.8;
-        }
-
-        @keyframes snow {
-            0% {background-position: 0 0;}
-            100% {background-position: 0 1000px;}
-        }
-
-        h1 {
-            color: white;
-            text-shadow: 0 0 20px #ff0000;
-            font-size: 40px;
-            animation: glow 2s infinite alternate;
-        }
-
-        @keyframes glow {
-            from {text-shadow: 0 0 10px red;}
-            to {text-shadow: 0 0 25px yellow;}
-        }
-
-        /* Tarjeta navideña con luces */
-        .card {
-            margin-top: 30px;
-            padding: 25px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            width: 380px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
-            animation: pop 0.6s ease-out;
-        }
-
-        @keyframes pop {
-            0% {transform: scale(0.7); opacity: 0;}
-            100% {transform: scale(1); opacity: 1;}
-        }
-
-        /* Luces animadas alrededor */
-        .card::before {
-            content: "";
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            right: -8px;
-            bottom: -8px;
-            border-radius: 25px;
-            background: linear-gradient(120deg, red, gold, green, red);
-            z-index: -1;
-            background-size: 300%;
-            animation: luz 4s linear infinite;
-        }
-
-        @keyframes luz {
-            0% {background-position: 0%;}
-            100% {background-position: 300%;}
-        }
-
-        button {
-            padding: 12px 25px;
-            cursor: pointer;
-            background: #ff3b3b;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 0 10px red;
-        }
-
-        button:hover {
-            background: #b30000;
-            transform: scale(1.1);
-        }
-
-        input {
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid white;
-            background: rgba(255, 255, 255, 0.8);
-            font-size: 16px;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Copos de nieve -->
-    <div class="snow"></div>
-
-    <h1>🎄 Crea tu Tarjeta Navideña 🎁</h1>
-
-    <p style="color:white; font-size:20px; text-shadow:0 0 10px black;">
-        Escribe los nombres y genera tu tarjeta personalizada:
-    </p>
-
-    <input id="de" type="text" placeholder="Tu nombre"> <br><br>
-    <input id="para" type="text" placeholder="Nombre del destinatario"> <br><br>
-
-    <button onclick="generar()">Generar Tarjeta</button>
-
-    <div id="tarjeta" class="card" style="display:none;">
-        <h2 style="color:#d32f2f; font-size:28px;">🎅 ¡Feliz Navidad! 🎄</h2>
-        <p id="texto" style="font-size:22px; font-weight:bold;"></p>
-    </div>
-
-    <!-- Música navideña libre de copyright -->
-    <audio autoplay loop>
-        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Computers_Arent_Music/Jingle_Bells/Computers_Arent_Music_-_Jingle_Bells.mp3" type="audio/mpeg">
-    </audio>
-
-    <script>
-        function generar() {
-            let de = document.getElementById("de").value;
-            let para = document.getElementById("para").value;
-
-            if (de.trim() === "" || para.trim() === "") {
-                alert("Por favor, llena ambos nombres.");
-                return;
-            }
-
-            document.getElementById("texto").innerHTML =
-                "De: <b>" + de + "</b><br>Para: <b>" + para + "</b>";
-
-            document.getElementById("tarjeta").style.display = "block";
-        }
-    </script>
-
-</body>
-</html>
+<div cla
+    
