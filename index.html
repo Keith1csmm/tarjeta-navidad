@@ -24,7 +24,7 @@
     }
 
     .card {
-        max-width: 600px;
+        max-width: 650px;
         background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(10px);
         padding: 40px;
@@ -47,23 +47,12 @@
         text-shadow: 0 0 8px gold;
     }
 
-    p {
-        font-size: 22px;
-    }
+    p { font-size: 22px; }
 
-    /* decoraciones emoji */
     .emoji-top {
         font-size: 70px;
-        display: block;
         animation: float 3s ease-in-out infinite;
         margin-bottom: 20px;
-    }
-
-    .emoji-bottom {
-        font-size: 60px;
-        display: block;
-        margin-top: 20px;
-        animation: glow 2s infinite alternate;
     }
 
     @keyframes float {
@@ -72,9 +61,52 @@
         100% { transform: translateY(0); }
     }
 
-    @keyframes glow {
-        from { text-shadow: 0 0 5px gold; }
-        to { text-shadow: 0 0 20px gold; }
+    /* Árbolito navideño */
+    .tree {
+        margin: 25px auto;
+        width: 0;
+        height: 0;
+        border-left: 70px solid transparent;
+        border-right: 70px solid transparent;
+        border-bottom: 120px solid #0b6623;
+        position: relative;
+        animation: glowTree 2s infinite alternate;
+    }
+
+    .tree:before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        left: -50px;
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        border-bottom: 90px solid #0b6623;
+    }
+
+    .tree:after {
+        content: "";
+        position: absolute;
+        top: -150px;
+        left: -30px;
+        width: 0;
+        height: 0;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        border-bottom: 60px solid #0b6623;
+    }
+
+    @keyframes glowTree {
+        from { filter: drop-shadow(0 0 5px gold); }
+        to   { filter: drop-shadow(0 0 20px gold); }
+    }
+
+    .names {
+        margin-top: 25px;
+        font-size: 24px;
+        color: #ffe8a5;
+        text-shadow: 0 0 6px black;
     }
 
     /* Copos de nieve */
@@ -92,7 +124,6 @@
         0% { transform: translateY(0); }
         100% { transform: translateY(110vh); }
     }
-
 </style>
 </head>
 
@@ -106,13 +137,20 @@
     <p>Que la magia de estas fiestas ilumine tu corazón,<br>
     y te regale alegría, amor y mucha paz. ❤️</p>
 
-    <div class="emoji-bottom">🎁⭐</div>
+    <!-- Árbol animado -->
+    <div class="tree"></div>
+
+    <!-- Aquí aparecerán los nombres -->
+    <div class="names" id="namesText">
+        Para: alguien especial ❤️<br>
+        De: alguien con mucho cariño 🎁
+    </div>
+
 </div>
 
 <script>
     // Copos de nieve
     const snowCount = 40;
-
     for (let i = 0; i < snowCount; i++) {
         let snow = document.createElement("div");
         snow.className = "snowflake";
@@ -122,6 +160,18 @@
         snow.style.animationDuration = (Math.random() * 4 + 4) + "s";
         snow.style.opacity = Math.random();
         document.body.appendChild(snow);
+    }
+
+    // Personalización por URL
+    const params = new URLSearchParams(window.location.search);
+    const para = params.get("para");
+    const de = params.get("de");
+
+    if (para || de) {
+        document.getElementById("namesText").innerHTML = `
+            Para: ${para || "alguien especial"} ❤️<br>
+            De: ${de || "alguien con mucho cariño"} 🎁
+        `;
     }
 </script>
 
